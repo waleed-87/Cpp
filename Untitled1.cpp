@@ -1,8 +1,4 @@
-/*
- * =====================================================
- * BLOOD DONATION MANAGEMENT SYSTEM
- * =====================================================
- */
+
 
 #include <iostream>
 #include <fstream>
@@ -12,20 +8,18 @@ using namespace std;
 const int MAX_RECORDS   = 100;
 const string ADMIN_PASS = "admin123";
 
-// File names
+
 const string DONOR_FILE  = "donors.txt";
 const string SEEKER_FILE = "seekers.txt";
 
-// =====================================================
-//  STRUCTS
-// =====================================================
+
 struct Donor {
     int id;
     char name[20];
     int age;
     char blood[10];
     char city[15];
-    char number[15]; // Changed to char array to support full contact numbers safely
+    char number[15]; 
     bool available;
 };
 
@@ -35,35 +29,25 @@ struct Seeker {
     int age;
     char blood_needed[10];
     char city[15];
-    char number[15]; // Changed to char array to support full contact numbers safely
+    char number[15]; 
     char hospital_name[30];
     char urgency_lvl[10];
 };
 
-// =====================================================
-//  GLOBAL STORAGE
-// =====================================================
+
 Donor donors[MAX_RECORDS];
 Seeker seekers[MAX_RECORDS];
 int donorCount = 0;
 int seekerCount = 0;
 
-// =====================================================
-//  UTILITY FUNCTIONS
-// =====================================================
+
 void pressEnter() {
     cout << "\nPress Enter to continue...";
     cin.ignore();
     cin.get();
 }
 
-bool isValidBloodGroup(const char bg[]) {
-    string valid[] = {"A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"};
-    for (int i = 0; i < 8; i++) {
-        if (strcmp(bg, valid[i].c_str()) == 0) return true;
-    }
-    return false;
-}
+
 
 int generateDonorId() {
     return (donorCount == 0) ? 1001 : donors[donorCount - 1].id + 1;
@@ -73,9 +57,9 @@ int generateSeekerId() {
     return (seekerCount == 0) ? 2001 : seekers[seekerCount - 1].id + 1;
 }
 
-// =====================================================
-//  FILE HANDLING (SAVE & LOAD)
-// =====================================================
+
+//  file handling
+
 void saveDonorsFile() {
     ofstream f(DONOR_FILE.c_str());
     if (!f) return;
@@ -149,16 +133,16 @@ void loadSeekersFile() {
     f.close();
 }
 
-// =====================================================
-//  SEEKER PANEL FUNCTIONS
-// =====================================================
+// 
+//  seekeer panel
+
 void addBloodRequest() {
     if (seekerCount >= MAX_RECORDS) {
         cout << "  [ERROR] Request list is full!\n";
         return;
     }
 
-    cout << "\n--- ADD BLOOD REQUEST ---\n";
+    cout << "\n ADD BLOOD REQUEST \n";
     Seeker s;
     s.id = generateSeekerId();
 
@@ -173,11 +157,7 @@ void addBloodRequest() {
     cout << "  Blood group needed (eg O+) : ";
     cin.getline(s.blood_needed, 10);  
 
-    if (!isValidBloodGroup(s.blood_needed)) {
-        cout << "  [ERROR] Invalid blood group! Request canceled.\n";
-        pressEnter();
-        return;
-    }
+  
    
     cout << "  Enter your city            : ";
     cin.getline(s.city, 15);
@@ -202,7 +182,7 @@ void addBloodRequest() {
 void seekerMenu() {
     int choice;
     do {
-        cout << "\n--- BLOOD SEEKER PANEL ---\n";
+        cout << "\n BLOOD SEEKER PANEL \n";
         cout << "  1. Add Blood Request\n"
              << "  0. Back to Main Menu\n";
         cout << "  Your choice: ";
@@ -216,16 +196,16 @@ void seekerMenu() {
     } while (choice != 0);
 }
 
-// =====================================================
-//  DONOR PANEL FUNCTIONS
-// =====================================================
+
+//  donor panel
+
 void registerDonor() {
     if (donorCount >= MAX_RECORDS) {
         cout << "  [ERROR] Donor list is full!\n";
         return;
     }
 
-    cout << "\n--- DONOR REGISTRATION ---\n";
+    cout << "\n DONOR REGISTRATION \n";
     Donor d;
     d.id = generateDonorId();
 
@@ -245,11 +225,7 @@ void registerDonor() {
 
     cout << "  Enter blood group (eg A+)  : ";
     cin.getline(d.blood, 10);
-    if (!isValidBloodGroup(d.blood)) {
-        cout << "\n  [ERROR] Invalid blood group.\n";
-        pressEnter();
-        return;
-    }
+  
 
     cout << "  Enter your city            : ";
     cin.getline(d.city, 15);
@@ -268,7 +244,7 @@ void registerDonor() {
 }
 
 void viewAllSeekers() {
-    cout << "\n--- PEOPLE WHO NEED BLOOD ---\n";
+    cout << "\n PEOPLE WHO NEED BLOOD \n";
     if (seekerCount == 0) {
         cout << "  No blood requests found.\n";
         pressEnter();
@@ -285,7 +261,7 @@ void viewAllSeekers() {
 }
 
 void viewSeekerDetails() {
-    cout << "\n--- VIEW SEEKER DETAILS ---\n";
+    cout << "\n VIEW SEEKER DETAILS \n";
     cout << "  Enter Seeker ID: ";
     int id; cin >> id;
 
@@ -311,7 +287,7 @@ void viewSeekerDetails() {
 void donorMenu() {
     int choice;
     do {
-        cout << "\n--- DONOR PANEL ---\n";
+        cout << "\n DONOR PANEL \n";
         cout << "  1. Register as a Donor\n"
              << "  2. View All Blood Requests (People Needing Blood)\n"
              << "  3. View Seeker Details (to Contact)\n"
@@ -329,11 +305,11 @@ void donorMenu() {
     } while (choice != 0);
 }
 
-// =====================================================
-//  ADMIN PANEL FUNCTIONS
-// =====================================================
+
+//  admin panel 
+
 void adminViewAllDonors() {
-    cout << "\n--- ALL REGISTERED DONORS ---\n";
+    cout << "\n ALL REGISTERED DONORS \n";
     if (donorCount == 0) {
         cout << "  No donors registered yet.\n";
         pressEnter();
@@ -352,7 +328,7 @@ void adminViewAllDonors() {
 }
 
 void adminSearchByBloodGroup() {
-    cout << "\n--- SEARCH BY BLOOD GROUP ---\n";
+    cout << "\n SEARCH BY BLOOD GROUP \n";
     cout << "  Enter blood group to search: ";
     char bg[10]; cin >> bg;
 
@@ -368,13 +344,14 @@ void adminSearchByBloodGroup() {
 }
 
 void adminUpdateDonor() {
-    cout << "\n--- UPDATE DONOR RECORD ---\n";
+    cout << "\n UPDATE DONOR RECORD \n";
     cout << "  Enter Donor ID to update: ";
-    int id; cin >> id;
+    int id;
+	 cin >> id;
 
     for (int i = 0; i < donorCount; i++) {
         if (donors[i].id == id) {
-            cin.ignore();
+           
             cout << "  Enter New Name [" << donors[i].name << "]: ";
             cin.getline(donors[i].name, 20);
             cout << "  Enter New Age: ";
@@ -398,13 +375,14 @@ void adminUpdateDonor() {
 }
 
 void adminDeleteDonor() {
-    cout << "\n--- DELETE DONOR RECORD ---\n";
+    cout << "\n DELETE DONOR RECORD \n";
     cout << "  Enter Donor ID to delete: ";
-    int id; cin >> id;
+    int id;
+	 cin >> id;
 
     for (int i = 0; i < donorCount; i++) {
         if (donors[i].id == id) {
-            // Shift elements left to overwrite deleted item
+           
             for (int j = i; j < donorCount - 1; j++) {
                 donors[j] = donors[j + 1];
             }
@@ -420,7 +398,7 @@ void adminDeleteDonor() {
 }
 
 void adminMenu() {
-    cout << "\n--- ADMIN LOGIN ---\n";
+    cout << "\n ADMIN LOGIN \n";
     cout << "  Enter Admin Password: ";
     string pass; cin >> pass;
 
@@ -432,7 +410,7 @@ void adminMenu() {
 
     int choice;
     do {
-        cout << "\n--- ADMIN PANEL ---\n";
+        cout << "\n ADMIN PANEL \n";
         cout << "  1. View All Donors\n"
              << "  2. Search Donors by Blood Group\n"
              << "  3. Update Donor Record\n"
@@ -452,19 +430,19 @@ void adminMenu() {
     } while (choice != 0);
 }
 
-// =====================================================
-//  MAIN FUNCTION
-// =====================================================
+
+//  main body
+
 int main() {
-    // Read historical text logs into runtime structures instantly
+   
     loadDonorsFile();
     loadSeekersFile();
 
     int choice;
     do {
-        cout << "\n=========================================\n"
-             << "   *** BLOOD DONATION SYSTEM ***\n"
-             << "=========================================\n";
+        cout << "\n------\n"
+             << "   *** BLOOD DONATION SYSTEM ***\n";
+            
         cout << "  1. Admin Panel\n"
              << "  2. Donor Panel\n"
              << "  3. Seeker Panel\n"
